@@ -1,0 +1,137 @@
+
+:root {
+  --accent-blue-strongest: var(--accent-primary-strongest)
+}
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+main {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+}
+
+body {
+  @apply bg-backgroundDefault text-foregroundDefault;
+	font-family: 'IBM Plex Sans', sans-serif;
+}
+
+html {
+  font-size: 16px;
+}
+
+/* input {
+  transition-property: background-color, box-shadow;
+  transition-duration: 120ms;
+  transition-timing-function: ease-out;
+  background-color: #2B3245;
+  border-color: transparent;
+  border-width: 0px;
+  border-style: solid;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  outline: none;
+  min-height: 0px;
+  min-width: 0px;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-flex: 1;
+  height: 2.28571em;
+  border-radius: 0.571429em;
+  padding-left: 8px;
+  color: #F5F9FC;
+} */
+
+button {
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  border-width: 0px;
+  border-style: solid;
+  box-sizing: border-box;
+  display: flex;
+  flex-basis: auto;
+  flex-direction: column;
+  flex-shrink: 0;
+  outline: none;
+  min-height: 0px;
+  min-width: 0px;
+  border-radius: 8px;
+  padding: 4px;
+  @apply px-8;
+  height: 32px;
+  transition-property: background-color, box-shadow;
+  transition-duration: 120ms;
+  transition-timing-function: ease-out;
+  @apply bg-accentPrimaryDimmer;
+  @apply text-foregroundDefault;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  @apply text-small;
+}
+
+.center {
+	display: flex;
+	align-items: center;
+	width: 80%;
+	height: 100vh;
+}
+
+.error {
+	color: #E52222
+}
+
+.heading {
+	font-size: 1.5em;
+}
+
+.command-button {
+  background-color: #1C2333;
+  border: none;
+  color: white;
+  padding: 8px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 10px 8px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 8px;
+  border: 1px solid white;
+}
+
+.command-button:hover {
+	background-color: #1A1A1D;
+	border: 1px solid white;
+}
+
+.command-button:active {
+	background-color: #121417;
+}
+
+input[type] {
+  @apply bg-backgroundHigher border-outlineDimmer rounded-[8px];
+  @apply text-small;
+  @apply py-4 px-8;
+}
+
+label {
+  @apply text-small;
+  @apply font-medium;
+  @apply text-foregroundDimmer;
+}
+
+a {
+  @apply text-accentPrimaryStronger
+}

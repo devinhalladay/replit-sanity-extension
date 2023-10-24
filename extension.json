@@ -1,0 +1,13 @@
+{
+  "name": "Sanity Studio Helper",
+  "description": "Easy configuration for the Sanity on Replit template",
+  "longDescription": "*Work in progress, not useful if you don't know what you're doing…*\n\n## Setup\n### Access token\nTo authenticate Groq requests with Sanity, you'll need to generate a \"robot token\" by opening the Sanity manage dashboard. From there, open the project you want to query, and add an access token in the project's settings. Paste that token into the input in Replit extension, hit save, and that's it.\n\n### Project ID\nGroq queries need to be associated with a Sanity project. You can grab your project ID at the top of the Sanity manage dashboard. Then, paste it into the extension, hit save, and you're good to go.\n\n## Querying\nIn the Query tab you can run any groq query against a given Sanity dataset. Just type the query and hit run, and you'll see a JSON tree output below the query editor. *Note: Large responses can crash the extension, so use slices `[0...x]` when making large queries.",
+  "icon": "icon.png",
+  "tools": [
+    {
+      "name": "Sanity",
+      "handler": "/home",
+      "icon": "/icon.png"
+    }
+  ]
+}

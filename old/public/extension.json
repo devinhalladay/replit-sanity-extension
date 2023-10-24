@@ -1,0 +1,15 @@
+{
+  "name": "WIP - Sanity Studio Helper Extension",
+  "description": "Easy configuration for the Sanity on Replit template",
+  "tools": [
+    {
+      "name": "Sanity Helper",
+      "icon": "/icon.png",
+      "handler": "/"
+    }
+  ],
+  "icon": "icon.png",
+  "coverImages": null,
+  "longDescription": "Setup sanity! Work in progress, not useful if you don't know what you're doing…",
+  // For more info: https://docs.replit.com/extensions/api/manifest
+}
