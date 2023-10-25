@@ -12,15 +12,16 @@ import { render } from 'react-dom';
 import './App.css';
 import ToggleButtonGroup from './components/ButtonGroup';
 import { ResultView } from './components/Result';
-import { executeGroq } from './lib/sanity.query';
+import { curlSanity, executeGroq } from './lib/sanity.query';
 import { createThemeExtension } from './lib/theme';
 import { keymap } from '@codemirror/view';
 import { Prec } from "@codemirror/state";
 import { vscodeKeymap } from "@replit/codemirror-vscode-keymap";
 import Heading from './components/Heading';
-
+import {sanityQuery} from './lib/sanity.query';
 const localSanityToken = localStorage.getItem('sanity_token');
 const localSanityProjectId = localStorage.getItem('sanity_project_id');
+
 
 function App() {
   const { status, error, replit } = useReplit();
@@ -40,6 +41,9 @@ function App() {
   const tokenInputRef = useRef<HTMLInputElement>(null);
   const projectInputRef = useRef<HTMLInputElement>(null);
   const datasetInputRef = useRef<HTMLInputElement>(null);
+
+  const [projects, setProjects] = useState([])
+  const [datasets, setDatasets] = useState([])
 
   useSetThemeCssVariables();
 
@@ -72,8 +76,34 @@ function App() {
     getConfigFromSecrets()
   }, [status]);
 
+  useEffect(() => {
+    if (accessToken) {
+      curlSanity(`projects`, accessToken).then(data => {
+        setProjects(data)
+      })
+    }
+  }, [accessToken]);
+
+  useEffect(() => {
+    if (projectId && accessToken) {
+      curlSanity(`projects/${projectId}`, accessToken).then(data => {
+        setDatasets(data)
+      })
+    }
+  }, [projectId, accessToken])
+
   const getSanityToken = async () => {
     const res = await replit.extensionPort.internal.secrets.getSecret({ key: 'SANITY_ROBOT_TOKEN' })
+    const localToken = localStorage.getItem('accessToken');
+
+    if (localToken) {
+      console.log('using local token', localToken, 'the other otken is', res.value ?? '')
+      setAccessToken(localToken);
+
+      return;
+    }
+    
+    // const res = await replit.extensionPort.internal.secrets.getSecret({ key: 'SANITY_ROBOT_TOKEN' })
 
     if (res.ok) {
       setAccessToken(res.value);
@@ -130,6 +160,8 @@ function App() {
     throw new Error('No SANITY_DATASET found');
   }
 
+  console.log(import.meta.env)
+  
   const createOrUpdateSecret = async ({ key, value }) => {
     if (replit) {
       const loading = await replit.messages.showNotice(
@@ -186,6 +218,7 @@ function App() {
       setDataset(dataset);
     }
   }
+
 
   const saveProjectId = async () => {
     const _projectId = projectInputRef.current?.value;
@@ -306,6 +339,23 @@ function App() {
       ) : (
         <section className="px-8 py-12 flex flex-col gap-24">
           <section className="flex flex-col gap-8">
+            <Heading title="Login with Sanity">
+              <span>
+                Authenticate Sanity Studio and this extension with OAuth.
+              </span>
+            </Heading>
+
+            <a target="_blank" href={`https://api.sanity.io/v2021-06-07/auth/oauth/authorize?client_id=${import.meta.env.VITE_SANITY_OAUTH_CLIENT_ID}&state=true&redirect_uri=${import.meta.env.VITE_REDIRECT_URI}`}>
+            <button className='w-fit'>
+              <div className="flex items-center gap-8 w-fit">
+                <span>Login with Sanity</span>
+              </div>
+            </button>
+              </a>
+
+          </section>
+
+          <section className="flex flex-col gap-8">
             <Heading
               title={'Authenticate with a Sanity token'}
             >
@@ -315,6 +365,7 @@ function App() {
               </span>
             </Heading>
             <div className="flex flex-col gap-8">
+
 
 
               {accessToken ? (
@@ -368,14 +419,34 @@ function App() {
               <label className="text-small font-medium" htmlFor="projectId">
                 Sanity Project ID
               </label>
-              <input
-                type="text"
-                placeholder="Project ID"
-                name="projectId"
-                id="projectId"
-                ref={projectInputRef}
-                defaultValue={projectId ?? localSanityProjectId ?? undefined}
-              ></input>
+              {
+                projects.length > 0 ? (
+                  // Map all projects onto a select field as options. Use project.id as the value and project.displayName as the label.
+                  <select
+                    name="projectId"
+                    id="projectId"
+                    value={projectId ?? localSanityProjectId ?? ''}
+                    onChange={async (e) => {
+                      setProjectId(e.target.value)
+                      
+                      await createOrUpdateSecret({
+                        key: 'SANITY_PROJECT_ID',
+                        value: e.target.value,
+                      })
+                    }}
+                    disabled={!accessToken}
+                  >
+                    <option value="">Select a project</option>
+                    {
+                      projects.map((project) => (
+                        <option key={project.id} value={project.id}>
+                          {project.displayName} (ID: {project.id})
+                        </option>
+                        ))
+                    }
+                    </select>
+                ) : null
+              }
             </div>
             <button onClick={saveProjectId} className='w-fit'>
               <div className="flex items-center gap-8 w-fit">

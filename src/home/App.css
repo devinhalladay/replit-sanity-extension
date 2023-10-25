@@ -120,10 +120,11 @@ button {
 	background-color: #121417;
 }
 
-input[type] {
+input[type], select {
   @apply bg-backgroundHigher border-outlineDimmer rounded-[8px];
   @apply text-small;
   @apply py-4 px-8;
+  @apply outline-none;
 }
 
 label {
