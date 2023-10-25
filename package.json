@@ -39,6 +39,7 @@
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.4.1",
     "react-jason": "^1.1.2",
+    "sanity": "^3.18.1",
     "style-mod": "^4.1.0",
     "vite": "^3.0.4",
     "vscode": "^1.1.37",

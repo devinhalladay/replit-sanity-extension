@@ -31,7 +31,7 @@ start = "typescript-language-server --stdio"
 
 [extension]
 isExtension = true
-buildCommand = "replkit build"
+buildCommand = "replkit build && cp public/icon.png dist/home/icon.png"
 outputDirectory = "./dist"
 staticDirectory = "./public"
 extensionID = "f69cae31-eabd-4d70-8feb-546b81e35e1a"

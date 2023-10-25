@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { SECRETS } from '../home/main';
+import { SECRETS } from '../home/lib/secrets';
 import './main.css'
 
 function Component() {
@@ -13,7 +13,6 @@ function Component() {
       localStorage.setItem(SECRETS.TOKEN, authToken)
     }
   })
-
 
   if (status === 'success') {
     return (
