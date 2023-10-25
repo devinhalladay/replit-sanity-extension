@@ -1,0 +1,12 @@
+body, html {
+  background-color: #1d2332;
+  color: #f6f9fc;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
